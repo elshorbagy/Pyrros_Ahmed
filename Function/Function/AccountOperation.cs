@@ -48,12 +48,14 @@ namespace Function
                             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
                             requestBody.ValidateString();
                             var request = JsonConvert.DeserializeObject<AccountDatum>(requestBody);
+                            _logger.LogInformation($"Adding acccount {request.Id} succeeded");
                             return new OkObjectResult(await _accountService.AddNewAccountAsync(request));
                         }
 
                     case "GET":
                         accountId = req.Query["id"];
                         accountId.ValidateString();
+                        _logger.LogInformation($"Get Account by id {accountId} succeeded");
                         return new OkObjectResult(await _accountService.GetAccountByIdAsync(int.Parse(accountId)));
                     default:
                         return new NoContentResult();
