@@ -22,10 +22,14 @@ namespace Repository.SQLRepository
 
         public async Task<AccountDatum> GetAccountByIdAsync(int accountId)
         {
-            return await _sqlDBContext
+            var data = await _sqlDBContext
                 .Set<AccountDatum>()
                 .AsNoTracking()
                 .FirstOrDefaultAsync(x => x.Id == accountId);
+
+            data ??= new AccountDatum();
+
+            return data;
         }
     }
 }
